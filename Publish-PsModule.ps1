@@ -21,19 +21,9 @@ function Publish-PsModule {
         return
     }
 
-    $ArgObject = @{
-        Uri = $FeedUri
-    }
-    if ($Credentials) {
-        Write-Host "Using password authentication: $($Credentials.Username)"
-        $ArgObject += @{
-            Credentials = $Credential
-        }
-    }
-
     try {
         Write-Host "Registering gallery for $FeedUri"
-        $ResultObject = Register-PSRepositoryWithSource @ArgObject
+        $ResultObject = Register-PSRepositoryV3 -Uri $FeedUri
         Write-Host "Using gallery $($ResultObject.FeedName)"
 
         foreach ($PsModule in $PsModules) {
@@ -47,14 +37,14 @@ function Publish-PsModule {
                 [IO.Directory]::CreateDirectory($TempModuleFolder) | Out-Null
                 Get-ChildItem $ModuleFolder | Copy-Item -Destination $TempModuleFolder -Recurse
                 $ArgObject = @{
-                    Path        = $TempModuleFolder
-                    NuGetApiKey = $ApiKey
-                    Repository  = $ResultObject.FeedName
+                    Path       = $TempModuleFolder
+                    ApiKey     = $ApiKey
+                    Repository = $ResultObject.FeedName
                 }
                 if ($Credentials) {
                     $ArgObject += @{ Credential = $Credentials }
                 }
-                Publish-Module @ArgObject
+                Publish-PSResource @ArgObject
                 Write-Host "The module '$ModuleName' from '$ModuleFolder' has been published."
             }
             finally {
@@ -68,7 +58,7 @@ function Publish-PsModule {
     finally {
         if ($ResultObject.IsTemporary) {
             Write-Host "Removing temporary gallery '$($ResultObject.FeedName)'"
-            Unregister-PSRepositoryWithSource -Name $ResultObject.FeedName
+            Unregister-PSRepositoryV3 -Name $ResultObject.FeedName
         }
     }
 }

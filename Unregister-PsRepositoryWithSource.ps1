@@ -1,13 +1,12 @@
-function Unregister-PSRepositoryWithSource {
+function Unregister-PSRepositoryV3 {
 
     param(
         # The name of the PS gallery to be registered. This is mandatory if you use 'NonTemporary'. Otherwise a random name will be generated.
         [Parameter(Mandatory = $true)] [string] $Name
     )
 
-    PowerShellGet\Unregister-PSRepository -Name $Name
-    PackageManagement\Unregister-PackageSource -Source "$($Name)_NuGet"
+    Unregister-PSResourceRepository -Name $Name
 
 }
 
-Export-ModuleMember Unregister-PSRepositoryWithSource
+Export-ModuleMember Unregister-PSRepositoryV3

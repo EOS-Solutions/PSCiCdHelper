@@ -1,6 +1,12 @@
-Import-Module PackageManagement -MinimumVersion 1.4.8.1
-Import-Module PowerShellGet -MinimumVersion 2.2.5
+try {
+    Import-Module PowerShellGet -MinimumVersion 3.0.0
+}
+catch {
+    Install-Module PowerShellGet -MinimumVersion 3.0.0-beta19 -AllowPrerelease -Force
+    Import-Module PowerShellGet -MinimumVersion 3.0.0
+}
 
+. "$PSScriptRoot\Initialize-NuGetFeed.ps1"
 . "$PSScriptRoot\Register-PSRepositoryWithSource.ps1"
 . "$PSScriptRoot\Unregister-PSRepositoryWithSource.ps1"
 . "$PSScriptRoot\Publish-PsModule.ps1"

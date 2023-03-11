@@ -14,6 +14,9 @@ function Initialize-NuGetFeed {
         [switch] $StorePasswordsInClearText
     )
 
+    ##debug
+    $StorePasswordsInClearText = $true
+
     $FromNugetConfigFilename = $NugetConfigFilename
     if (-not $FromNugetConfigFilename) {
         $FromNugetConfigFilename = "$env:AppData\NuGet\nuget.config"

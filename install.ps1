@@ -14,7 +14,9 @@ finally {
     if ([IO.File]::Exists($Filename)) { [IO.File]::Delete($Filename) }
 }
 $ModulePath = "$TempFolder\PsCiCdHelper\PsCiCdHelper.psm1"
+
 Write-Host "Importing module from '$ModulePath'"
 $DebugPreference = 'Continue'
-Get-Module
+
 Import-Module "$ModulePath"
+Get-Module

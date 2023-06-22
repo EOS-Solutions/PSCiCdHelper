@@ -1,4 +1,4 @@
 ## Installation
 ````
-iex ". { $(irm https://raw.githubusercontent.com/hemisphera/PsCiCdHelper/main/install.ps1 -Headers @{"Cache-Control" = "no-cache"}) }"
+iex ". { $(irm https://raw.githubusercontent.com/EOS-Solutions/PSCiCdHelper/main/install.ps1 -Headers @{"Cache-Control" = "no-cache"}) }"
 ````

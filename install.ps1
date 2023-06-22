@@ -19,4 +19,6 @@ Write-Host "Importing module from '$ModulePath'"
 $DebugPreference = 'Continue'
 
 Import-Module "$ModulePath"
-Get-Module
+if ($env:System.Debug) {
+    Get-Module
+}

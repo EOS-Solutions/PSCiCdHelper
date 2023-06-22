@@ -22,3 +22,4 @@ Import-Module "$ModulePath"
 if ($env:System.Debug) {
     Get-Module
 }
+Write-Output $ModulePath

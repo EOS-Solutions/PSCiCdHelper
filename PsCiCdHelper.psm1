@@ -11,3 +11,4 @@ catch {
 . "$PSScriptRoot\Unregister-PSRepositoryWithSource.ps1"
 . "$PSScriptRoot\Publish-PsModule.ps1"
 . "$PSScriptRoot\Install-PsModule.ps1"
+. "$PSScriptRoot\Import-PsModule.ps1"

@@ -27,7 +27,7 @@ function Install-PsModule {
         if ($Credentials) {
             $ArgObject += @{ Credential = $Credentials }
         }
-        Install-Module @ArgObject
+        Install-PSResource @ArgObject
     }
     finally {
         if ($ResultObject.IsTemporary) {

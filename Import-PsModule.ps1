@@ -10,7 +10,7 @@ function Import-PsModule {
     if ($EnsureLatest) {
         try {
             Write-Host "Ensuring latest version of module '$ModuleName'"
-            Update-PSResource -Name $ModuleName -Credential $Credentials
+            Update-PSResource -Name $ModuleName -Credential $Credentials -ErrorAction Stop
         }
         catch {
             Write-Host "Failed to update module '$ModuleName': $($_.Exception.Message)"

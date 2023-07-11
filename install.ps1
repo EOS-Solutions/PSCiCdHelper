@@ -1,4 +1,4 @@
-$Uri = "https://github.com/hemisphera/PsCiCdHelper/archive/refs/heads/main.zip"
+$Uri = "https://github.com/EOS-Solutions/PSCiCdHelper/archive/refs/heads/main.zip"
 $ErrorActionPreference = "Stop"
 $Filename = "$([IO.Path]::GetTempFileName()).zip"
 $TempFolder = [IO.Path]::Combine([IO.Path]::GetTempPath(), "PsCiCdHelper")

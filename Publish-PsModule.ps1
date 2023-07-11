@@ -21,8 +21,6 @@ function Publish-PsModule {
         return
     }
 
-    Get-Content "$env:AppData\NuGet\nuget.config"
-
     try {
         Write-Host "Registering gallery for $FeedUri"
         $ResultObject = Register-PSRepositoryV3 -Uri $FeedUri

@@ -1,9 +1,9 @@
 try {
-    Import-Module PowerShellGet -MinimumVersion 3.0.19 -Global
+    Import-Module Microsoft.PowerShell.PSResourceGet -Global
 }
 catch {
-    Install-Module PowerShellGet -MinimumVersion 3.0.19-beta19 -AllowPrerelease -Force
-    Import-Module PowerShellGet -MinimumVersion 3.0.19 -Force -Global
+    Install-Module Microsoft.PowerShell.PSResourceGet -AllowPrerelease -Force
+    Import-Module Microsoft.PowerShell.PSResourceGet -Global
 }
 
 . "$PSScriptRoot\Initialize-NuGetFeed.ps1"

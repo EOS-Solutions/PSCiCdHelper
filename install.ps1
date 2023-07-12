@@ -23,8 +23,8 @@ else {
     finally {
         if ([IO.File]::Exists($Filename)) { [IO.File]::Delete($Filename) }
     }
-    Set-Content -Path $PsCiCdHelperIndexPath -Value $ModulePath
     $ModulePath = "$TempFolder\PsCiCdHelper\PsCiCdHelper.psm1"
+    Set-Content -Path $PsCiCdHelperIndexPath -Value $ModulePath
 }
 
 if ($env:System_Debug) { $DebugPreference = 'Continue' }

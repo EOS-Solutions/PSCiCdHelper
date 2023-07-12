@@ -16,10 +16,7 @@ finally {
 $ModulePath = "$TempFolder\PsCiCdHelper\PsCiCdHelper.psm1"
 
 Write-Host "Importing module from '$ModulePath'"
-$DebugPreference = 'Continue'
+if ($env:System_Debug) { $DebugPreference = 'Continue' }
 
 Import-Module "$ModulePath"
-if ($env:System.Debug) {
-    Get-Module
-}
 Write-Output $ModulePath

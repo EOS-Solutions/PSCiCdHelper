@@ -14,7 +14,6 @@ function Initialize-NuGetFeed {
         [switch] $StorePasswordsInClearText
     )
 
-    ##debug
     $StorePasswordsInClearText = $true
 
     $FromNugetConfigFilename = $NugetConfigFilename

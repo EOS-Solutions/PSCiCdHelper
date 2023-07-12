@@ -1,6 +1,6 @@
 ## What's this?
 
-A tiny module that helps installing and deploying powershell modules in CD/CD scenarios. It is based on the new `Microsoft.PowerShell.PSResourceGet` (formerly known as `PowerShellGet v3`) and is therefore more awesome.
+A tiny module that helps installing and deploying powershell modules in CI/CD scenarios. It is based on the new `Microsoft.PowerShell.PSResourceGet` (formerly known as `PowerShellGet v3`) and is therefore more awesome.
 
 ## Why?
 
@@ -10,7 +10,7 @@ A tiny module that helps installing and deploying powershell modules in CD/CD sc
 
 ## Installation
 
-This is meant for CD/CD scenarios. The following will download the package and import it as a module. Drop this line into your pipeline scripts and you have the cmdlets readily available.
+This is meant for CI/CD scenarios. The following will download the package and import it as a module. Drop this line into your pipeline scripts and you have the cmdlets readily available.
 
 ````
 iex ". { $(irm https://raw.githubusercontent.com/EOS-Solutions/PSCiCdHelper/main/install.ps1 -Headers @{"Cache-Control" = "no-cache"}) }"

@@ -8,8 +8,10 @@ if (-not $RequiresDownload) {
 }
 if (-not $RequiresDownload) {
     $ModulePath = (Get-Content $PsCiCdHelperIndexPath -Raw).TrimEnd()
+    $RequiresDownload = -not [IO.File]::Exists($ModulePath)
 }
-else {
+
+if ($RequiresDownload) {
     $Filename = "$([IO.Path]::GetTempFileName()).zip"
     $TempFolder = [IO.Path]::Combine([IO.Path]::GetTempPath(), "PsCiCdHelper")
     Write-Host "Using temporary folder '$TempFolder'"

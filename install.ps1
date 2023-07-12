@@ -7,7 +7,7 @@ if (-not $RequiresDownload) {
     $RequiresDownload = [IO.File]::GetLastWriteTime($PsCiCdHelperIndexPath) -lt (Get-Date).AddDays(-1)
 }
 if (-not $RequiresDownload) {
-    $ModulePath = Get-Content $PsCiCdHelperIndexPath -Raw
+    $ModulePath = (Get-Content $PsCiCdHelperIndexPath -Raw).TrimEnd()
 }
 else {
     $Filename = "$([IO.Path]::GetTempFileName()).zip"

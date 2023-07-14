@@ -4,7 +4,8 @@ function Import-PsModule {
         [Parameter(Mandatory = $true)] [String] $ModuleName,
         [Parameter(Mandatory = $true)] [String] $FeedUri,
         [Parameter(Mandatory = $false)] [pscredential] $Credentials,
-        [Parameter(Mandatory = $false)] [switch] $EnsureLatest
+        [Parameter(Mandatory = $false)] [switch] $EnsureLatest,
+        [Parameter(Mandatory = $false)] [switch] $Global    
     )
 
     if ($EnsureLatest) {
@@ -26,7 +27,7 @@ function Import-PsModule {
         }
         try {
             if ($Attempt -gt 1) { Write-Host "Attempt $Attempt" }
-            Import-Module $ModuleName -DisableNameChecking
+            Import-Module $ModuleName -DisableNameChecking -Global:$Global
             break;
         }
         catch {

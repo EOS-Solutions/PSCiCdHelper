@@ -9,12 +9,6 @@ function Install-PsModule {
     $ArgObject = @{
         Uri = $FeedUri
     }
-    if ($Credentials) {
-        Write-Host "Using password authentication: $($Credentials.Username)"
-        $ArgObject += @{
-            Credentials = $Credential
-        }
-    }
 
     try {
         Write-Host "Registering gallery for $FeedUri"

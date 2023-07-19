@@ -18,7 +18,7 @@ function Install-PsModule {
 
     try {
         Write-Host "Registering gallery for $FeedUri"
-        $ResultObject = Register-PSRepositoryWithSource @ArgObject
+        $ResultObject = Register-PSRepositoryV3 @ArgObject
         Write-Host "Using gallery $($ResultObject.FeedName)"
         $ArgObject = @{
             Name       = $ModuleName
@@ -32,7 +32,7 @@ function Install-PsModule {
     finally {
         if ($ResultObject.IsTemporary) {
             Write-Host "Removing temporary gallery '$($ResultObject.FeedName)'"
-            Unregister-PSRepositoryWithSource -Name $ResultObject.FeedName
+            Unregister-PSRepositoryV3 -Name $ResultObject.FeedName
         }
     }
 

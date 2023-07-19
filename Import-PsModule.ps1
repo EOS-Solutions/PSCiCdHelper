@@ -5,7 +5,7 @@ function Import-PsModule {
         [Parameter(Mandatory = $true)] [String] $FeedUri,
         [Parameter(Mandatory = $false)] [pscredential] $Credentials,
         [Parameter(Mandatory = $false)] [switch] $EnsureLatest,
-        [Parameter(Mandatory = $false)] [switch] $Global    
+        [Parameter(Mandatory = $false)] [switch] $Global
     )
 
     if ($EnsureLatest) {

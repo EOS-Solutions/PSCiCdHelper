@@ -11,10 +11,18 @@ function Import-PsModule {
     if ($EnsureLatest) {
         try {
             Write-Host "Ensuring latest version of module '$ModuleName'"
-            Update-PSResource -Name $ModuleName -Credential $Credentials -ErrorAction Stop
+            $ResultObject = Register-PSRepositoryV3 -Uri $FeedUri
+            Update-PSResource -Name $ModuleName -Credential $Credentials -Repository $ResultObject.FeedName -ErrorAction Stop
         }
         catch {
             Write-Host "Failed to update module '$ModuleName': $($_.Exception.Message)"
+        }
+        finally {
+            if ($ResultObject.IsTemporary) {
+                Write-Host "Removing temporary gallery '$($ResultObject.FeedName)'"
+                Unregister-PSRepositoryV3 -Name $ResultObject.FeedName
+            }
+            $ResultObject = $null
         }
     }
 

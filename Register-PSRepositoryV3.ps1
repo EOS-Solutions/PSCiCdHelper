@@ -33,6 +33,7 @@ function Register-PSRepositoryV3 {
         $ResultObject["IsTemporary"] = (-not $NonTemporary)
         Write-Debug "Registering PS Resource Repository"
         Register-PSResourceRepository -Name $ResultObject.FeedName -Uri $Uri -Trusted
+        Set-PSResourceRepository -Name $ResultObject.FeedName -Trusted
         Write-Debug "PS Resource Repository registered"
     }
 

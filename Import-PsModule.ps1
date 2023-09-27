@@ -5,10 +5,20 @@ function Import-PsModule {
         [Parameter(Mandatory = $true)] [String] $FeedUri,
         [Parameter(Mandatory = $false)] [pscredential] $Credentials,
         [Parameter(Mandatory = $false)] [switch] $EnsureLatest,
+        [Parameter(Mandatory = $false)] [Version] $MinimumVersion = $null,
         [Parameter(Mandatory = $false)] [switch] $Global
     )
 
-    if ($EnsureLatest) {
+    $AvailableModules = Get-Module $ModuleName -ListAvailable
+    if ($AvailableModules) {
+        $DoUpdateModule = $EnsureLatest
+        if ((-not $DoUpdateModule) -and ($null -ne $MinimumVersion)) {
+            if ($AvailableModules | Where-Object { $_.Version -ge $MinimumVersion }) {
+                $DoUpdateModule = $true
+            }
+        }
+    }
+    if ($DoUpdateModule) {
         try {
             Write-Host "Ensuring latest version of module '$ModuleName'"
             $ResultObject = Register-PSRepositoryV3 -Uri $FeedUri
@@ -35,7 +45,7 @@ function Import-PsModule {
         }
         try {
             if ($Attempt -gt 1) { Write-Host "Attempt $Attempt" }
-            Import-Module $ModuleName -DisableNameChecking -Global:$Global
+            Import-Module $ModuleName -DisableNameChecking -Global:$Global -MinimumVersion $MinimumVersion
             break;
         }
         catch {

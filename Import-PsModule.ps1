@@ -13,7 +13,7 @@ function Import-PsModule {
     if ($AvailableModules) {
         $DoUpdateModule = $EnsureLatest
         if ((-not $DoUpdateModule) -and ($null -ne $MinimumVersion)) {
-            if ($AvailableModules | Where-Object { $_.Version -ge $MinimumVersion }) {
+            if (-not ($AvailableModules | Where-Object { $_.Version -ge $MinimumVersion })) {
                 $DoUpdateModule = $true
             }
         }

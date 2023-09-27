@@ -17,8 +17,12 @@ function Import-PsModule {
                 $DoUpdateModule = $true
             }
         }
+    } else {
+        $DoInstallModule = $true
     }
+
     if ($DoUpdateModule) {
+        Write-Host "Updating module '$Module' ..."
         try {
             Write-Host "Ensuring latest version of module '$ModuleName'"
             $ResultObject = Register-PSRepositoryV3 -Uri $FeedUri
@@ -36,24 +40,12 @@ function Import-PsModule {
         }
     }
 
-    $Attempt = 0;
-    $MaxAttempts = 3;
-    while ($Attempt -lt $MaxAttempts) {
-        $Attempt++
-        if ($Attempt -gt $MaxAttempts) {
-            throw "All attempts to import module '$ModuleName' failed"
-        }
-        try {
-            if ($Attempt -gt 1) { Write-Host "Attempt $Attempt" }
-            Import-Module $ModuleName -DisableNameChecking -Global:$Global -MinimumVersion $MinimumVersion
-            break;
-        }
-        catch {
-            Write-Host "Failed to import module '$ModuleName': $($_.Exception.Message)"
-        }
-        Write-Host "Installing module '$ModuleName' from '$FeedUri'"
+    if ($DoInstallModule) {
+        Write-Host "No versions found for module '$Module', installing ..."
         Install-PsModule -ModuleName $ModuleName -FeedUri $FeedUri -Credentials $Credentials
     }
+
+    Import-Module $ModuleName -DisableNameChecking -Global:$Global -MinimumVersion $MinimumVersion
 }
 
 Export-ModuleMember Import-PsModule

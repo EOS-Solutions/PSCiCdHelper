@@ -17,7 +17,8 @@ function Import-PsModule {
                 $DoUpdateModule = $true
             }
         }
-    } else {
+    }
+    else {
         $DoInstallModule = $true
     }
 
@@ -26,7 +27,16 @@ function Import-PsModule {
         try {
             Write-Host "Ensuring latest version of module '$ModuleName'"
             $ResultObject = Register-PSRepositoryV3 -Uri $FeedUri
-            Update-PSResource -Name $ModuleName -Credential $Credentials -Repository $ResultObject.FeedName -ErrorAction Stop
+            $UpdateArgs = @{
+                Name        = $ModuleName
+                Credential  = $Credentials
+                Repository  = $ResultObject.FeedName
+                ErrorAction = "Stop"
+            }
+            if ($MinimumVersion) {
+                $UpdateArgs.Version += "[$($MinimumVersion), ]"
+            }
+            Update-PSResource @UpdateArgs
         }
         catch {
             Write-Host "Failed to update module '$ModuleName': $($_.Exception.Message)"

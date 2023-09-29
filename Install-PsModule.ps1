@@ -3,7 +3,8 @@ function Install-PsModule {
     param(
         [Parameter(Mandatory = $true)] [String] $ModuleName,
         [Parameter(Mandatory = $true)] [String] $FeedUri,
-        [Parameter(Mandatory = $false)] [pscredential] $Credentials
+        [Parameter(Mandatory = $false)] [pscredential] $Credentials,
+        [Parameter(Mandatory = $false)] [string] $Scope = "CurrentUser"
     )
 
     $ArgObject = @{
@@ -16,6 +17,7 @@ function Install-PsModule {
         Write-Host "Using gallery $($ResultObject.FeedName)"
         $ArgObject = @{
             Name       = $ModuleName
+            Scope      = $Scope
             Repository = $ResultObject.FeedName
         }
         if ($Credentials) {

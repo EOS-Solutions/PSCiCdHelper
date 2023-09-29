@@ -6,10 +6,11 @@ function Import-PsModule {
         [Parameter(Mandatory = $false)] [pscredential] $Credentials,
         [Parameter(Mandatory = $false)] [switch] $EnsureLatest,
         [Parameter(Mandatory = $false)] [Version] $MinimumVersion = $null,
-        [Parameter(Mandatory = $false)] [switch] $Global
+        [Parameter(Mandatory = $false)] [switch] $Global,
+        [Parameter(Mandatory = $false)] [string] $Scope = "CurrentUser"
     )
 
-    $AvailableModules = Get-Module $ModuleName -ListAvailable
+    $AvailableModules = Get-InstalledPSResource -Scope $Scope $ModuleName
     if ($AvailableModules) {
         $DoUpdateModule = $EnsureLatest
         if ((-not $DoUpdateModule) -and ($null -ne $MinimumVersion)) {
@@ -23,12 +24,13 @@ function Import-PsModule {
     }
 
     if ($DoUpdateModule) {
-        Write-Host "Updating module '$Module' ..."
+        Write-Host "Updating module '$ModuleName' ..."
         try {
             Write-Host "Ensuring latest version of module '$ModuleName'"
             $ResultObject = Register-PSRepositoryV3 -Uri $FeedUri
             $UpdateArgs = @{
                 Name        = $ModuleName
+                Scope       = $Scope
                 Credential  = $Credentials
                 Repository  = $ResultObject.FeedName
                 ErrorAction = "Stop"
@@ -52,7 +54,7 @@ function Import-PsModule {
 
     if ($DoInstallModule) {
         Write-Host "No versions found for module '$ModuleName', installing ..."
-        Install-PsModule -ModuleName $ModuleName -FeedUri $FeedUri -Credentials $Credentials
+        Install-PsModule -ModuleName $ModuleName -Scope $Scope -FeedUri $FeedUri -Credentials $Credentials
     }
 
     Import-Module $ModuleName -DisableNameChecking -Global:$Global -MinimumVersion $MinimumVersion

@@ -10,7 +10,12 @@ function Import-PsModule {
         [Parameter(Mandatory = $false)] [string] $Scope = "CurrentUser"
     )
 
-    $AvailableModules = Get-InstalledPSResource -Scope $Scope $ModuleName
+    try {
+        $AvailableModules = Get-InstalledPSResource -Scope $Scope $ModuleName
+    }
+    catch {
+        Write-Warning $_
+    }
     if ($AvailableModules) {
         $DoUpdateModule = $EnsureLatest
         if ((-not $DoUpdateModule) -and ($null -ne $MinimumVersion)) {

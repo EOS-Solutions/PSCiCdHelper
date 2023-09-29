@@ -51,7 +51,7 @@ function Import-PsModule {
     }
 
     if ($DoInstallModule) {
-        Write-Host "No versions found for module '$Module', installing ..."
+        Write-Host "No versions found for module '$ModuleName', installing ..."
         Install-PsModule -ModuleName $ModuleName -FeedUri $FeedUri -Credentials $Credentials
     }
 

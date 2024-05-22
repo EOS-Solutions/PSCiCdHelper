@@ -11,8 +11,6 @@ if (-not $RequiresDownload) {
     $RequiresDownload = -not [IO.File]::Exists($ModulePath)
 }
 
-$RequiresDownload = $true # debug
-
 if ($RequiresDownload) {
     $Filename = "$([IO.Path]::GetTempFileName()).zip"
     $TempFolder = [IO.Path]::Combine([IO.Path]::GetTempPath(), "PsCiCdHelper")

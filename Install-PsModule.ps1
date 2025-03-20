@@ -16,9 +16,10 @@ function Install-PsModule {
         $ResultObject = Register-PSRepositoryV3 @ArgObject
         Write-Host "Using gallery $($ResultObject.FeedName)"
         $ArgObject = @{
-            Name       = $ModuleName
-            Scope      = $Scope
-            Repository = $ResultObject.FeedName
+            Name            = $ModuleName
+            Scope           = $Scope
+            Repository      = $ResultObject.FeedName
+            TrustRepository = $true
         }
         if ($Credentials) {
             $ArgObject += @{ Credential = $Credentials }

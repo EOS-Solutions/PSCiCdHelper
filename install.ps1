@@ -30,6 +30,9 @@ if ($RequiresDownload) {
 }
 
 if ($env:System_Debug) { $DebugPreference = 'Continue' }
+Write-Host "brr"
+Write-Host "brr"
+Write-Host "brr"
 Write-Host "Importing module from '$ModulePath'"
 Import-Module "$ModulePath"
 Write-Output $ModulePath

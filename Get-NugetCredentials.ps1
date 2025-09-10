@@ -33,7 +33,6 @@ function Get-NugetCredentials {
     
     if (-not $endpointsJson) {
         Write-Verbose "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS environment variable not found"
-        return $null
     }
     
     $Credential = $null

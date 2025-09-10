@@ -6,6 +6,7 @@ catch {
     Import-Module Microsoft.PowerShell.PSResourceGet -Global
 }
 
+. "$PSScriptRoot\Get-NugetCredentials.ps1"
 . "$PSScriptRoot\Initialize-NuGetFeed.ps1"
 . "$PSScriptRoot\Register-PSRepositoryV3.ps1"
 . "$PSScriptRoot\Unregister-PSRepositoryV3.ps1"

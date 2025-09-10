@@ -21,6 +21,10 @@ function Publish-PsModule {
         return
     }
 
+    if (-not $Credentials) {
+        $Credentials = Get-NugetCredentials -FeedUri $FeedUri -Verbose
+    }
+
     try {
         Write-Host "Registering gallery for $FeedUri"
         $ResultObject = Register-PSRepositoryV3 -Uri $FeedUri

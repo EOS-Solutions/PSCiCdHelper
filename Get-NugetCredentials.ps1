@@ -36,6 +36,7 @@ function Get-NugetCredentials {
         return $null
     }
     
+    $Credential = $null
     try {
         # Parse the JSON from the environment variable
         $endpoints = $endpointsJson | ConvertFrom-Json
@@ -56,31 +57,32 @@ function Get-NugetCredentials {
             }
         }
         
-        if (-not $matchingEndpoint) {
-            Write-Verbose "No matching endpoint found for URI: $FeedUri"
-            return $null
-        }
-        
         # Extract username and password from the matching endpoint
         $username = $matchingEndpoint.username
         $password = $matchingEndpoint.password
         
-        if (-not $username -or -not $password) {
-            Write-Verbose "Incomplete credentials found for endpoint: $($matchingEndpoint.endpoint)"
-            return $null
-        }
-        
-        Write-Verbose "Successfully extracted credentials for endpoint: $($matchingEndpoint.endpoint)"
-        
         # Create and return PSCredential object
         $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
-        return New-Object System.Management.Automation.PSCredential($username, $securePassword)
-        
+        $Credential = New-Object System.Management.Automation.PSCredential($username, $securePassword)
+
     }
     catch {
         Write-Error "Error parsing VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $($_.Exception.Message)"
-        return $null
     }
+
+    if (-not $Credential) {
+        Write-Verbose "No matching endpoint found for URI: $FeedUri"
+
+        # Fallback: Check for VSS_NUGET_ACCESSTOKEN
+        $accessToken = $env:VSS_NUGET_ACCESSTOKEN
+        if ($accessToken) {
+            Write-Verbose "Using VSS_NUGET_ACCESSTOKEN as fallback credentials"
+            $securePassword = ConvertTo-SecureString $accessToken -AsPlainText -Force
+            $Credential = New-Object System.Management.Automation.PSCredential("vsts", $securePassword)
+        }
+    }
+
+    return $Credential
 }
 
 Export-ModuleMember Get-NugetCredentials

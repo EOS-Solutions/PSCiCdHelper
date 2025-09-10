@@ -38,7 +38,7 @@ function Get-NugetCredentials {
     $Credential = $null
     try {
         # Parse the JSON from the environment variable
-        $endpoints = $endpointsJson | ConvertFrom-Json
+        $endpoints = ConvertFrom-Json $endpointsJson
         
         # Convert feed URI to lowercase for comparison
         $FeedUriLower = $FeedUri.ToLowerInvariant()
@@ -66,11 +66,11 @@ function Get-NugetCredentials {
 
     }
     catch {
-        Write-Error "Error parsing VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $($_.Exception.Message)"
+        Write-Verbose "Error parsing VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $($_.Exception.Message)"
     }
 
     if (-not $Credential) {
-        Write-Verbose "No matching endpoint found for URI: $FeedUri"
+        Write-Verbose "No matching endpoint found for URI: $FeedUri, attempting AccessToken"
 
         # Fallback: Check for VSS_NUGET_ACCESSTOKEN
         $accessToken = $env:VSS_NUGET_ACCESSTOKEN
@@ -79,6 +79,10 @@ function Get-NugetCredentials {
             $securePassword = ConvertTo-SecureString $accessToken -AsPlainText -Force
             $Credential = New-Object System.Management.Automation.PSCredential("vsts", $securePassword)
         }
+    }
+
+    if (-not $Credential) {
+        Write-Verbose "No credentials found for feed URI: $FeedUri"
     }
 
     return $Credential
